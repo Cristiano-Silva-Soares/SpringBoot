@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/prototype/blog/post")
-public class PostagemController 
-{
+public class PostagemController {
 	@Autowired
 	private PostagemRepository repository1;
 
@@ -35,64 +34,63 @@ public class PostagemController
 			return ResponseEntity.status(204).build();
 
 		} else {
-			
+
 			return ResponseEntity.status(200).body(objetoPost);
-		}	
+		}
 	}
+
 	@PostMapping("/salvar")
-		public ResponseEntity<Postagem> salvar(@Valid@RequestBody Postagem novaPostagem) {
-			return ResponseEntity.status(201).body(repository1.save(novaPostagem));
+	public ResponseEntity<Postagem> salvar(@Valid @RequestBody Postagem novaPostagem) {
+		return ResponseEntity.status(201).body(repository1.save(novaPostagem));
 	}
-	
-	@GetMapping("/{idPostagem}")
-	public ResponseEntity<Postagem> buscaPorId(@PathVariable(value = "idUsuario")Long idUsuario) {
-			Optional<Postagem> objetoPostI = repository1.findById(idUsuario);
-			
-			if(objetoPostI.isPresent()) {
-				
-				return ResponseEntity.status(200).body(objetoPostI.get());
-			
-			} else {
-			
-				return ResponseEntity.status(204).build();
-			}
-				
-	}
-	
-	@GetMapping("/titulo/{titulo}")
-	public ResponseEntity<List<Postagem>> buscaPorTituloI(@PathVariable(value ="titulo")String titulo) {
-		List<Postagem>objetoPostII = repository1.findAllByTituloContainingIgnoreCase(titulo);
-		
-		if(objetoPostII.isEmpty()) {
-			return ResponseEntity.status(204).build();
-		
+
+	@GetMapping("/{id_postagem}")
+	public ResponseEntity<Postagem> buscarPorId(@PathVariable(value = "id_postagem") Long idPostagem) {
+		Optional<Postagem> objetoPostI = repository1.findById(idPostagem);
+
+		if (objetoPostI.isPresent()) {
+			return ResponseEntity.status(200).body(objetoPostI.get());
+
 		} else {
-			
+
+			return ResponseEntity.status(204).build();
+		}
+	}
+
+	@GetMapping("/titulo/{titulo}")
+	public ResponseEntity<List<Postagem>> buscaPorTituloI(@PathVariable(value = "titulo") String titulo) {
+		List<Postagem> objetoPostII = repository1.findAllByTituloContainingIgnoreCase(titulo);
+
+		if (objetoPostII.isEmpty()) {
+			return ResponseEntity.status(204).build();
+
+		} else {
+
 			return ResponseEntity.status(200).body(objetoPostII);
 		}
 	}
+
 	@GetMapping("/pesquisa")
-	public ResponseEntity<List<Postagem>> buscarPorTituloII(@RequestParam(defaultValue = "")String titulo) {
+	public ResponseEntity<List<Postagem>> buscarPorTituloII(@RequestParam(defaultValue = "") String titulo) {
 		List<Postagem> objetoPostIII = repository1.findAllByTituloContainingIgnoreCase(titulo);
-		
-		if(objetoPostIII.isEmpty()) {
+
+		if (objetoPostIII.isEmpty()) {
 			return ResponseEntity.status(204).build();
-		
+
 		} else {
-			
+
 			return ResponseEntity.status(200).body(objetoPostIII);
 		}
 	}
+
 	@PutMapping("/atualizar")
-	public ResponseEntity<Postagem> atualizar(@Valid@RequestBody Postagem postagemParaAtualizar) {
+	public ResponseEntity<Postagem> atualizar(@Valid @RequestBody Postagem postagemParaAtualizar) {
 		return ResponseEntity.status(201).body(repository1.save(postagemParaAtualizar));
 	}
-	
-	@DeleteMapping("/delete/{idPostagem}")
-	public void deletarPostarImagemPorId(@PathVariable(value = "idPostagem")long idPostagem) {
+
+	@DeleteMapping("/delete/{id_Postagem}")
+	public void deletarPostagemPorId(@PathVariable(value = "id_Postagem") long idPostagem) {
 		repository1.deleteById(idPostagem);
 	}
-	
+
 }
-
-
