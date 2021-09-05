@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -56,7 +58,7 @@ public class TemaController {
 	}
 
 	@GetMapping("/tema/{tema}")
-	public ResponseEntity<List<Tema>> buscaPorTema(@PathVariable(value = "tema") String tema) {
+	public ResponseEntity<List<Tema>> buscaPorTemaI(@PathVariable(value = "tema") String tema) {
 		List<Tema> objetoThemeII = repository3.findAllByTemaContainingIgnoreCase(tema);
 
 		if (objetoThemeII.isEmpty()) {
@@ -69,6 +71,19 @@ public class TemaController {
 	}
 
 	@GetMapping("/pesquisa")
+	public ResponseEntity<List<Tema>> buscarPorTemaII(@RequestParam(defaultValue = "") String tema) {
+		List<Tema> objetoThemeIII = repository3.findAllByTemaContainingIgnoreCase(tema);
+
+		if (objetoThemeIII.isEmpty()) {
+			return ResponseEntity.status(204).build();
+
+		} else {
+
+			return ResponseEntity.status(200).body(objetoThemeIII);
+		}
+	}
+
+	@PutMapping("/atualizar")
 	public ResponseEntity<Tema> atualizar(@Valid @RequestBody Tema temaParaAtualizar) {
 		return ResponseEntity.status(201).body(repository3.save(temaParaAtualizar));
 	}

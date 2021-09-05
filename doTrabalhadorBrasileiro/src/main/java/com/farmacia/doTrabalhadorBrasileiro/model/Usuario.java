@@ -1,4 +1,4 @@
-package org.generation.blogPessoal.model;
+package com.farmacia.doTrabalhadorBrasileiro.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,13 +28,13 @@ public class Usuario {
 	@Email
 	private String email;
 
-	@NotNull
-	@Size(min = 5)
+	@NotBlank
+	@Size(min = 6)
 	private String senha;
 
-	@OneToMany(mappedBy = "criador", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties({ "criador" })
-	private List<Postagem> minhasPostagens = new ArrayList<>();
+	@OneToMany(mappedBy = "comprador", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties({ "comprador" })
+	private List<Produto> codigoUsuario = new ArrayList<>();
 
 	public Long getIdUsuario() {
 		return idUsuario;
@@ -69,12 +68,12 @@ public class Usuario {
 		this.senha = senha;
 	}
 
-	public List<Postagem> getMinhasPostagens() {
-		return minhasPostagens;
+	public List<Produto> getCodigoUsuario() {
+		return codigoUsuario;
 	}
 
-	public void setMinhasPostagens(List<Postagem> minhasPostagens) {
-		this.minhasPostagens = minhasPostagens;
+	public void setCodigoUsuario(List<Produto> codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
 	}
 
 }

@@ -16,33 +16,31 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Postagem 
-{
+public class Postagem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank
 	@Size(min = 5, max = 100)
 	public String titulo;
-	
+
 	@NotBlank
 	@Size(min = 10, max = 300)
 	public String texto;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new java.sql.Date(System.currentTimeMillis());
-	
+
 	@ManyToOne
 	@JoinColumn(name = "criador_id")
-	@JsonIgnoreProperties({"minhasPostagens"})
+	@JsonIgnoreProperties({ "minhasPostagens" })
 	private Usuario criador;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "tema_id")
-	@JsonIgnoreProperties({"postagens"})
+	@JsonIgnoreProperties({ "postagens" })
 	private Tema temaRelacionado;
-	
 
 	public Long getId() {
 		return id;
@@ -67,7 +65,7 @@ public class Postagem
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
-	
+
 	public Date getDate() {
 		return date;
 	}
@@ -91,6 +89,4 @@ public class Postagem
 	public void setTemaRelacionado(Tema temaRelacionado) {
 		this.temaRelacionado = temaRelacionado;
 	}
-	
-	
 }

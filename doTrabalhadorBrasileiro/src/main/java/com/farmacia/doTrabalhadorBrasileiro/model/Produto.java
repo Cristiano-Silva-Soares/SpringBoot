@@ -28,11 +28,16 @@ public class Produto {
 	private boolean laboratorio;
 
 	private boolean tarjaPreta;
-	
+
 	@ManyToOne
-	@JsonIgnoreProperties({"codigoRemedios"})
+	@JsonIgnoreProperties({ "codigoRemedios" })
 	@JoinColumn(name = "codigoRemedios")
 	private Categoria idRemedios;
+
+	@ManyToOne
+	@JsonIgnoreProperties({ "codigoUsuario" })
+	@JoinColumn(name = "codigoUsuario")
+	private Usuario comprador;
 
 	public Long getIdProduto() {
 		return idProduto;
@@ -80,6 +85,15 @@ public class Produto {
 
 	public void setIdRemedios(Categoria idRemedios) {
 		this.idRemedios = idRemedios;
+
 	}
-	
+
+	public Usuario getComprador() {
+		return comprador;
+	}
+
+	public void setComprador(Usuario comprador) {
+		this.comprador = comprador;
+	}
+
 }
