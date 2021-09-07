@@ -1,4 +1,4 @@
-package org.generation.blogPessoal.security;
+package com.farmacia.doTrabalhadorBrasileiro.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,32 +12,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
-public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
+public class ConfiguracoesBasicas extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private UserDetailsServiceImplements service;
-
+	private UsuarioImplementado servico;
+	
 	@Bean
-	public PasswordEncoder senhaEncoder() {
+	public PasswordEncoder criptografaSenha() {
 		return new BCryptPasswordEncoder();
-
 	}
-
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/prototype/blog/users/salvar").permitAll()
-				.antMatchers(HttpMethod.PUT, "/prototype/blog/users/credenciais").permitAll().anyRequest()
-				.authenticated()
-				.and().httpBasic()
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().cors()
-				.and().csrf().disable();
-
+		http.authorizeRequests().antMatchers(HttpMethod.POST,"/farmaciadotrabalhador/v1/users/save").permitAll()
+								.antMatchers(HttpMethod.PUT,"/farmaciadotrabalhador/v1/users/Login").permitAll().anyRequest()
+								.authenticated()
+								.and().httpBasic()
+								.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+								.and().cors()
+								.and().csrf().disable();
+		
 	}
-
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(service);
+		auth.userDetailsService(servico);
 	}
-
 }

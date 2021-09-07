@@ -57,7 +57,7 @@ public class CategoriaController {
 		}
 	}
 
-	@GetMapping("/categoriaremedio/{categoriaRemedio}")
+	@GetMapping("/remedycategory/{categoriaRemedio}")
 	public ResponseEntity<List<Categoria>> buscarTipo(@PathVariable(value = "categoriaRemedio") String buscaRemedio) {
 		List<Categoria> objectCategoryII = repository1.findAllByCategoriaRemedioContainingIgnoreCase(buscaRemedio);
 

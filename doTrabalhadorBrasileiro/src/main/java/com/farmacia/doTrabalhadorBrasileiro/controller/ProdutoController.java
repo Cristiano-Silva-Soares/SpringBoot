@@ -56,7 +56,7 @@ public class ProdutoController {
 		}
 	}
 	
-	@GetMapping("/nomeproduto/{nomeProduto}")
+	@GetMapping("/productname/{nomeProduto}")
 	public ResponseEntity<List<Produto>> buscaNome(@PathVariable(value = "nomeProduto")String nome) {
 		List<Produto> objectProductII = repository2.pesquisarProdutos(nome);
 		

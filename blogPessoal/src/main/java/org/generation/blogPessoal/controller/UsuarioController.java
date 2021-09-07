@@ -78,7 +78,7 @@ public class UsuarioController {
 
 		} else {
 
-			return ResponseEntity.status(200).build();
+			return ResponseEntity.status(204).build();
 		}
 	}
 
