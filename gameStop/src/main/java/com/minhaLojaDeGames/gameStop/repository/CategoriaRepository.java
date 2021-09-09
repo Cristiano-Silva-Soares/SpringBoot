@@ -8,16 +8,17 @@ import org.springframework.stereotype.Repository;
 import com.minhaLojaDeGames.gameStop.model.Categoria;
 
 /**
- * Metódos usados para se fazer pesquisas dentro da categoria ação,rpg, 
- * e esporte/corrida com containingIgnoreCase(pesquisa livre na questão dos caracteres).
+ * Metódos usados para se fazer pesquisas dentro da categoria ação,rpg, e etc;
+ * com containingIgnoreCase(pesquisa livre na questão dos caracteres).
+ * 
  * @Param catgeorias de ação,rpg,e esporte/corrida.
  * @return Lista de ação,rpg,e esporte/corrida.
  * @author Cristiano
+ * @since 1.0
  *
  */
 
 @Repository
-public interface CategoriaRepository extends JpaRepository<Categoria,Long>
-{
+public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 	public List<Categoria> findAllByTipoContainingIgnoreCase(String Tipo);
 }

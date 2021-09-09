@@ -25,7 +25,7 @@ public class ConfiguracoesBasicas extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(HttpMethod.POST,"/farmaciadotrabalhador/v1/users/save").permitAll()
-								.antMatchers(HttpMethod.PUT,"/farmaciadotrabalhador/v1/users/Login").permitAll().anyRequest()
+								.antMatchers(HttpMethod.PUT,"/farmaciadotrabalhador/v1/users/login").permitAll().anyRequest()
 								.authenticated()
 								.and().httpBasic()
 								.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
