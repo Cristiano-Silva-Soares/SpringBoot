@@ -28,7 +28,7 @@ class UsuarioModelTest {
 	
 	@BeforeEach
 	public void start() {
-		user = new Usuario("Cristiano","cristianoeu@email.com","123456");
+		user = new Usuario(0L,"Cristiano","cristianoeu@email.com","123456");
 	}
 	
 	@Test
@@ -39,10 +39,11 @@ class UsuarioModelTest {
 	
 	@Test
 	void validateWrongUserReturnsFalse() {
-		Usuario userFailed = new Usuario("Cristiano","","");
+		Usuario userFailed = new Usuario(0L,"Cristiano","","");
 		Set<ConstraintViolation<Usuario>> object = validator.validate(userFailed);
 		assertFalse(object.isEmpty());
 	}
+	
 	
 	}
 
