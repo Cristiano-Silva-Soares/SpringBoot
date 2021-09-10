@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -25,7 +27,9 @@ public class Produto {
 	@Size(min = 3, max = 150)
 	private String genero;
 
-	private boolean novo;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@NotBlank
+	private String anoLancamento;
 
 	@NotNull
 	private float preco;
@@ -34,6 +38,11 @@ public class Produto {
 	@JsonIgnoreProperties({ "categoriaGameStop" })
 	@JoinColumn(name = "categoriaGamesStop")
 	private Categoria codigoDaCategoria;
+	
+	@ManyToOne
+	@JsonIgnoreProperties({"codigoComprador"})
+	@JoinColumn(name = "codigoComprador")
+	private Usuario codigoComprador;
 
 	public Long getIdProduto() {
 		return idProduto;
@@ -59,12 +68,12 @@ public class Produto {
 		this.genero = genero;
 	}
 
-	public boolean isNovo() {
-		return novo;
+	public String isAnoLancamento() {
+		return anoLancamento;
 	}
 
-	public void setNovo(boolean novo) {
-		this.novo = novo;
+	public void setAnoLancamento(String anoLancamento) {
+		this.anoLancamento = anoLancamento;
 	}
 
 	public float getPreco() {
