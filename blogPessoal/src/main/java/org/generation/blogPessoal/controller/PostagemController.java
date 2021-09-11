@@ -5,8 +5,11 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.generation.blogPessoal.exceptions.model.ExcecaoIdPostagemNaoExistente;
+import org.generation.blogPessoal.exceptions.model.ExcecaoIdUsuarioOuIdTemaNaoExistente;
 import org.generation.blogPessoal.model.Postagem;
 import org.generation.blogPessoal.repository.PostagemRepository;
+import org.generation.blogPessoal.servicos.PostagemServicos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostagemController {
 	@Autowired
 	private PostagemRepository repository1;
+	@Autowired
+	private PostagemServicos repositoryP;
 
 	@GetMapping("/allposts")
 	public ResponseEntity<List<Postagem>> GetAll() {
@@ -40,8 +45,17 @@ public class PostagemController {
 	}
 
 	@PostMapping("/salvar")
-	public ResponseEntity<Postagem> salvar(@Valid @RequestBody Postagem novaPostagem) {
-		return ResponseEntity.status(201).body(repository1.save(novaPostagem));
+	public ResponseEntity<Object> salvar(@Valid @RequestBody Postagem novaPostagem) {
+		Optional<?> objectPostagem = repositoryP.criaPostagem(novaPostagem);
+
+		if (objectPostagem.isPresent()) {
+			return ResponseEntity.status(201).body(objectPostagem.get());
+
+		} else {
+
+			throw new ExcecaoIdUsuarioOuIdTemaNaoExistente();
+		}
+
 	}
 
 	@GetMapping("/{id_postagem}")
@@ -84,8 +98,17 @@ public class PostagemController {
 	}
 
 	@PutMapping("/atualizar")
-	public ResponseEntity<Postagem> atualizar(@Valid @RequestBody Postagem postagemParaAtualizar) {
-		return ResponseEntity.status(201).body(repository1.save(postagemParaAtualizar));
+	public ResponseEntity<Object> atualizar(@Valid @RequestBody Postagem postagemParaAtualizar) {
+		Optional<?> objectPostagem = repositoryP.alterarPostagem(postagemParaAtualizar);
+
+		if (objectPostagem.isPresent()) {
+			return ResponseEntity.status(201).body(objectPostagem.get());
+
+		} else {
+
+			throw new ExcecaoIdPostagemNaoExistente(postagemParaAtualizar.getId());
+		}
+
 	}
 
 	@DeleteMapping("/delete/{id_Postagem}")

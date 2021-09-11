@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.generation.blogPessoal.exceptions.model.ExcecaoIdTemaNaoExiste;
 import org.generation.blogPessoal.model.Tema;
 import org.generation.blogPessoal.repository.TemaRepository;
+import org.generation.blogPessoal.servicos.TemaServicos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TemaController {
 	@Autowired
 	private TemaRepository repository3;
+	@Autowired
+	private TemaServicos repositoryT;
 
 	@GetMapping("/allthemes")
 	public ResponseEntity<List<Tema>> GetAll() {
@@ -84,8 +88,16 @@ public class TemaController {
 	}
 
 	@PutMapping("/atualizar")
-	public ResponseEntity<Tema> atualizar(@Valid @RequestBody Tema temaParaAtualizar) {
-		return ResponseEntity.status(201).body(repository3.save(temaParaAtualizar));
+	public ResponseEntity<Object> atualizar(@Valid @RequestBody Tema temaParaAtualizar) {
+		Optional<Tema> objectTema = repositoryT.alterarTema(temaParaAtualizar);
+
+		if (objectTema.isPresent()) {
+			return ResponseEntity.status(201).body(objectTema.get());
+
+		} else {
+
+			throw new ExcecaoIdTemaNaoExiste(temaParaAtualizar.getIdTema());
+		}
 	}
 
 	@DeleteMapping("/delete/{id_Tema}")

@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.generation.blogPessoal.exceptions.model.ExcecaoEmailExistente;
+import org.generation.blogPessoal.exceptions.model.ExcecaoErroEmailOuSenhaExistente;
+import org.generation.blogPessoal.exceptions.model.ExcecaoIdUsuarioNaoExistente;
 import org.generation.blogPessoal.model.Usuario;
 import org.generation.blogPessoal.model.utilities.UsuarioDTO;
 import org.generation.blogPessoal.repository.UsuarioRepository;
@@ -47,12 +50,12 @@ public class UsuarioController {
 	public ResponseEntity<Object> salvar(@Valid @RequestBody Usuario novoUsuario) {
 		Optional<Object> objectOptionalI = repository4.cadastrarUsuario(novoUsuario);
 
-		if (objectOptionalI.isEmpty()) {
-			return ResponseEntity.status(400).build();
+		if (objectOptionalI.isPresent()) {
+			return ResponseEntity.status(201).body(objectOptionalI.get());
 
 		} else {
 
-			return ResponseEntity.status(201).body(objectOptionalI.get());
+			throw new ExcecaoEmailExistente(novoUsuario.getEmail());
 		}
 	}
 
@@ -60,12 +63,12 @@ public class UsuarioController {
 	public ResponseEntity<Object> credenciaisUsuario(@Valid @RequestBody UsuarioDTO usuarioParaAutenticar) {
 		Optional<?> objectOptionalII = repository4.pegarCredenciaisUsuario(usuarioParaAutenticar);
 
-		if (objectOptionalII.isEmpty()) {
-			return ResponseEntity.status(400).build();
+		if (objectOptionalII.isPresent()) {
+			return ResponseEntity.status(201).body(objectOptionalII.get());
 
 		} else {
 
-			return ResponseEntity.status(201).body(objectOptionalII.get());
+			throw new ExcecaoErroEmailOuSenhaExistente();
 		}
 	}
 
@@ -110,13 +113,30 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/atualizar")
-	public ResponseEntity<Usuario> atualizar(@Valid @RequestBody Usuario usuarioParaAtualizar) {
-		return ResponseEntity.status(201).body(repository2.save(usuarioParaAtualizar));
+	public ResponseEntity<Object> atualizar(@Valid @RequestBody UsuarioDTO usuarioParaAtualizar) {
+		Optional<?> objectUpdate = repository4.alterarUsuario(usuarioParaAtualizar);
+
+		if (objectUpdate.isPresent()) {
+			return ResponseEntity.status(201).body(objectUpdate.get());
+
+		} else {
+
+			throw new ExcecaoIdUsuarioNaoExistente(usuarioParaAtualizar.getIdUsuario());
+		}
 	}
 
 	@DeleteMapping("/deletar/{id_usuario}")
-	public void deletarUsuarioPorId(@PathVariable(value = "id_usuario") Long idUsuario) {
-		repository2.deleteById(idUsuario);
+	public ResponseEntity<Object> deletaUsuario(@PathVariable(value = "id_usuario") Long idUsuario) {
+		Optional<Usuario> objectDelete = repository2.findById(idUsuario);
+
+		if (objectDelete.isPresent()) {
+			repository2.deleteById(idUsuario);
+			return ResponseEntity.status(200).build();
+
+		} else {
+
+			throw new ExcecaoIdUsuarioNaoExistente(idUsuario);
+		}
 	}
 
 }
