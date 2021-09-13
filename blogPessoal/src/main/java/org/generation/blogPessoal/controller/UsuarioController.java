@@ -113,16 +113,9 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/atualizar")
-	public ResponseEntity<Object> atualizar(@Valid @RequestBody UsuarioDTO usuarioParaAtualizar) {
-		Optional<?> objectUpdate = repository4.alterarUsuario(usuarioParaAtualizar);
+	public ResponseEntity<Usuario> atualizar(@Valid @RequestBody Usuario usuarioParaAtualizar) {
+		return ResponseEntity.status(201).body(repository2.save(usuarioParaAtualizar));
 
-		if (objectUpdate.isPresent()) {
-			return ResponseEntity.status(201).body(objectUpdate.get());
-
-		} else {
-
-			throw new ExcecaoIdUsuarioNaoExistente(usuarioParaAtualizar.getIdUsuario());
-		}
 	}
 
 	@DeleteMapping("/deletar/{id_usuario}")

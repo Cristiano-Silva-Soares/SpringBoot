@@ -88,7 +88,7 @@ public class UsuarioServicos {
 	 * @author Cristiano
 	 */
 
-	public Optional<?> alterarUsuario(UsuarioDTO usuarioParaAlterar) {
+	/*public Optional<?> alterarUsuario(UsuarioDTO usuarioParaAlterar) {
 		return repository4.findById(usuarioParaAlterar.getIdUsuario()).map(usuarioExistente -> {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			String senhaCriptografada = encoder.encode(usuarioParaAlterar.getSenha());
@@ -100,6 +100,6 @@ public class UsuarioServicos {
 
 			return Optional.empty();
 		});
-	}
+	}*/
 
 }

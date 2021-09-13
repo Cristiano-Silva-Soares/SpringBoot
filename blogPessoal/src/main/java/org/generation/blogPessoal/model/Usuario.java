@@ -36,17 +36,8 @@ public class Usuario {
 	@OneToMany(mappedBy = "criador", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties({ "criador" })
 	private List<Postagem> minhasPostagens = new ArrayList<>();
-	
-	public Usuario(@NotBlank String nome, @NotBlank @Email String email, @NotBlank @Size(min = 5) String senha) {
-		super();
-		this.nomeUsuario = nomeUsuario;
-		this.email = email;
-		this.senha = senha;
-	}
 
-	public Usuario(Long idUsuario, @NotBlank String nomeUsuario, @NotBlank @Email String email,
-			@NotNull @Size(min = 5) String senha) {
-		super();
+	public Usuario(Long idUsuario, String nomeUsuario, String email, String senha) {
 		this.idUsuario = idUsuario;
 		this.nomeUsuario = nomeUsuario;
 		this.email = email;
@@ -54,7 +45,6 @@ public class Usuario {
 	}
 
 	public Usuario() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Long getIdUsuario() {

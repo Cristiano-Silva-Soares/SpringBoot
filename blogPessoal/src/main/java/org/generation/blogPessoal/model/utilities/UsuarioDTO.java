@@ -19,6 +19,17 @@ public class UsuarioDTO {
 	private Long idUsuario;
 	private String nomeUsuario;
 	private String token;
+	
+	
+
+	public UsuarioDTO(String email, String senha, Long idUsuario, String nomeUsuario) {
+		this.email = email;
+		this.senha = senha;
+		this.idUsuario = idUsuario;
+		this.nomeUsuario = nomeUsuario;
+	}
+	
+	public UsuarioDTO() { }
 
 	public String getEmail() {
 		return email;
